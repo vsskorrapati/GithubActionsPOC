@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: "14.x"
       - run: npm ci
-      - run: npm run prettier-format        
+      - run: npm run prettier-format
       - run: npm test -- --coverage
       - name: Upload Test Coverage
         uses: actions/upload-artifact@v1
@@ -53,7 +53,7 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.5.7 # This is the action we are importing
         with: # It accepts some arguments to work, we can pass the argument using `with`
           heroku_api_key: $HEROKU_AUTH_TOKEN # This is the same as the auth key we generated earlier
-          heroku_app_name: "task-manager-poc-dev" #Must be unique in Heroku
+          heroku_app_name: "github-poc-dev" #Must be unique in Heroku
           heroku_email: $EMAIL # Email attached to the account
         env:
           EMAIL: ${{ secrets.EMAIL }}
@@ -64,28 +64,37 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.5.7 # This is the action we are importing
         with: # It accepts some arguments to work, we can pass the argument using `with`
           heroku_api_key: $HEROKU_AUTH_TOKEN # This is the same as the auth key we generated earlier
-          heroku_app_name: "task-manager-poc-prod" #Must be unique in Heroku
+          heroku_app_name: "github-poc-prod" #Must be unique in Heroku
           heroku_email: $EMAIL # Email attached to the account
         env:
           EMAIL: ${{ secrets.EMAIL }}
           HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
 
-      - name: Open Issue
-        if: failure() && github.event_name == 'push'
-        run: |
-          curl --request POST \
-          --url https://api.github.com/repos/${{
-            github.repository
-          }}/issues \
-          --header 'authorization: Bearer ${{
-            secrets.CUSTOM_TOKEN }}' \
-          --data '{
-            "title":"Automated Issue for Commit: ${{
-            github.sha}}",
-            "body":"This issue was automatically created by
-             the GitHub Action workflow **${{ github.workflow
-             }}**. \n\n The commit hash was: _${{ github.sha}}_.",
-            "assignes" ["${{
-             github.event.pull_request.user.login }}"]
-             }'
+      # - name: Open Issue
+      #   if: failure() && github.event_name == 'push'
+      #   run: |
+      #     curl --request POST \
+      #     --url https://api.github.com/repos/${{
+      #       github.repository
+      #     }}/issues \
+      #     --header 'authorization: Bearer ${{
+      #       secrets.CUSTOM_TOKEN }}' \
+      #     --data '{
+      #       "title":"Automated Issue for Commit: ${{
+      #       github.sha}}",
+      #       "body":"This issue was automatically created by
+      #        the GitHub Action workflow **${{ github.workflow
+      #        }}**. \n\n The commit hash was: _${{ github.sha}}_.",
+      #       "assignes" ["${{
+      #        github.event.pull_request.user.login }}"]
+      #        }'
 
+      - name: Open Github Issue
+        uses: alialaa/issue-action@v1.0.0
+        with:
+          token: ${{ secrets.CUSTOM_TOKEN}}
+          title: Automated Issue for Commit ${{github.sha}}
+          body: "This issue was automatically created by
+            the GitHub Action workflow **${{ github.workflow
+            }}**. \n\n The commit hash was: _${{ github.sha}}_."
+          assignees: ${{github.event.pull_request.user.login }}
