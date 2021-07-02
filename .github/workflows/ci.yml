@@ -51,7 +51,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.CUSTOM_TOKEN}}
       - name: Deploying code to Productions from sandbox
         if: (github.ref == 'refs/heads/sandbox' && github.event_name == 'push')
-        uses: akhileshns/heroku-deploy@v3.5.7
+        uses: AkhileshNS/heroku-deploy@v3.12.12
         with: 
           heroku_api_key: $HEROKU_AUTH_TOKEN 
           heroku_app_name: "github-poc-dev" 
@@ -62,7 +62,7 @@ jobs:
 
       - name: Deploying code to Productions from master
         if: (github.ref == 'refs/heads/master' && github.event_name == 'push')
-        uses: akhileshns/heroku-deploy@v3.5.7 
+        uses: AkhileshNS/heroku-deploy@v3.12.12
         with: 
           heroku_api_key: $HEROKU_AUTH_TOKEN 
           heroku_app_name: "github-poc-prod" 
