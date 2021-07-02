@@ -5,6 +5,7 @@ on:
     branches: [develop, master]
   push:
     branches: [develop, master, sandbox]
+
 env:
   MONGODB_URL: ${{ secrets.MONGODB_URL}}
   JWT_SECRET: ${{secrets.JWT_SECRET}}
@@ -38,8 +39,8 @@ jobs:
         with:
           name: code-coverage
           path: coverage
-      - run: echo ${{github.ref}}
-      - run: echo ${{github.event_name}}
+      # - run: echo ${{github.ref}}
+      # - run: echo ${{github.event_name}}
       - name: ZIP Assets
         if: ( github.event_name == 'push' && github.ref == 'refs/heads/master')
         run: zip -r coverage.zip ./coverage
