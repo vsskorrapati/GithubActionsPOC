@@ -49,27 +49,27 @@ jobs:
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.CUSTOM_TOKEN}}
-      - name: Deploying code to Productions from sandbox
-        if: (github.ref == 'refs/heads/sandbox' && github.event_name == 'push')
-        uses: AkhileshNS/heroku-deploy@v3.12.12
-        with: 
-          heroku_api_key: $HEROKU_AUTH_TOKEN 
-          heroku_app_name: "github-poc-dev" 
-          heroku_email: $EMAIL 
-        env:
-          EMAIL: ${{ secrets.EMAIL }}
-          HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
+      # - name: Deploying code to Productions from sandbox
+      #   if: (github.ref == 'refs/heads/sandbox' && github.event_name == 'push')
+      #   uses: AkhileshNS/heroku-deploy@v3.12.12
+      #   with: 
+      #     heroku_api_key: $HEROKU_AUTH_TOKEN 
+      #     heroku_app_name: "github-poc-dev" 
+      #     heroku_email: $EMAIL 
+      #   env:
+      #     EMAIL: ${{ secrets.EMAIL }}
+      #     HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
 
-      - name: Deploying code to Productions from master
-        if: (github.ref == 'refs/heads/master' && github.event_name == 'push')
-        uses: AkhileshNS/heroku-deploy@v3.12.12
-        with: 
-          heroku_api_key: $HEROKU_AUTH_TOKEN 
-          heroku_app_name: "github-poc-prod" 
-          heroku_email: $EMAIL 
-        env:
-          EMAIL: ${{ secrets.EMAIL }}
-          HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
+      # - name: Deploying code to Productions from master
+      #   if: (github.ref == 'refs/heads/master' && github.event_name == 'push')
+      #   uses: AkhileshNS/heroku-deploy@v3.12.12
+      #   with: 
+      #     heroku_api_key: $HEROKU_AUTH_TOKEN 
+      #     heroku_app_name: "github-poc-prod" 
+      #     heroku_email: $EMAIL 
+      #   env:
+      #     EMAIL: ${{ secrets.EMAIL }}
+      #     HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
 
 
       - name: Open Github Issue
