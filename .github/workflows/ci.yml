@@ -41,6 +41,12 @@ jobs:
           path: coverage
       # - run: echo ${{github.ref}}
       # - run: echo ${{github.event_name}}
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          # directory: ./coverage            
+
       - name: ZIP Assets
         if: ( github.event_name == 'push' && github.ref == 'refs/heads/master')
         run: zip -r coverage.zip ./coverage
